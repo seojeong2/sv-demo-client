@@ -14,8 +14,8 @@
 }
 
 .App-header {
-  background-color: bisque;
-  min-height: 30vh;
+  /* background-color: bisque; */
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,10 +29,19 @@
 }
 
 .MainContainer {
-  height: 70vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 }
+
+.resultContainer {
+  border: gray 5px solid;
+  padding: 20px;
+  margin: 80px;
+  height: 250px;
+}
+
 .row {
   display: flex;
   flex: 1;
@@ -53,4 +62,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: "GoogleFont";
+  src: url("/public/fonts/Diphylleia-Regular.ttf");
 }
