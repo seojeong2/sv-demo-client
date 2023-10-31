@@ -13,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   const [userId, setUserId] = useState(""); //userId
+  const [finalUserId, setFinalUserId] = useState(""); // 결과 표시창에 나타내는 userId
 
   const isNameValid = userId.trim() !== "";
 
@@ -40,6 +41,8 @@ function App() {
           throw new Error("API 요청이 실패했습니다.");
         }
         const data = await response.text();
+        setFinalUserId(userId); // 결과창에 표시할 userId
+        console.log("final userId: " + finalUserId);
 
         if (data === "Sucess") {
           console.log("서버로부터 응답 제대로 옴");
@@ -125,6 +128,8 @@ function App() {
           throw new Error("API 요청이 실패했습니다.");
         }
         const data = await response.json();
+        setFinalUserId(userId); // 결과창에 표시할 userId
+        console.log("final userId: " + finalUserId);
 
         if (data === "error") {
           setResponse("처리 실패");
@@ -185,7 +190,7 @@ function App() {
             )}
           </div>
         </div>
-        <div className="row" style={{ maxHeight: "20vh" }}>
+        <div className="row" style={{ maxHeight: "15vh", margin: "50px" }}>
           <div className="column">
             <Button
               onClick={() => handleButtonClick("registration")}
@@ -207,7 +212,7 @@ function App() {
               style={{
                 width: "200px",
                 height: "50px",
-                backgroundColor: "green",
+                backgroundColor: "brown",
                 border: "none",
               }}
             >
@@ -226,8 +231,13 @@ function App() {
           )}{" "}
           {/* 로딩 중일 때 로딩 바 표시 */}
           {response && (
-            <div style={{ fontSize: "30px" }}>
-              {userId}님 {response}
+            <div style={{ fontSize: "40px" }}>
+              <span>{finalUserId}님 </span>
+              <span
+                style={{ color: response.includes("성공") ? "blue" : "red" }}
+              >
+                {response}
+              </span>
             </div>
           )}
           {error && (
@@ -245,5 +255,4 @@ const titleStyle = {
   fontFamily: "GoogleFont, sans-serif",
   fontSize: "50px",
 };
-
 export default App;

@@ -38,8 +38,11 @@
 .resultContainer {
   border: gray 5px solid;
   padding: 20px;
-  margin: 80px;
+  margin-top: 30px;
+  margin-left: 80px;
+  margin-right: 80px;
   height: 250px;
+  border-radius: 10px;
 }
 
 .row {
