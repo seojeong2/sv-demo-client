@@ -155,11 +155,74 @@ function App() {
     }
   };
 
+  const clickClassiButton = async () => {
+    setResponse("");
+    setError("");
+
+    if (userId.trim() === "") {
+      setError("사용자명을 입력바랍니다.");
+    } else {
+      setIsLoading(true); // 요청 시작 시 로딩 상태를 true로 설정
+      try {
+        const apiUrl = "http://localhost:8080/api/record/classification";
+        const requestBody = JSON.stringify(userId);
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestBody,
+        });
+        if (!response.ok) {
+          throw new Error("API 요청이 실패했습니다.");
+        }
+        const data = await response.json();
+        setFinalUserId(userId); // 결과창에 표시할 userId
+        console.log("final userId: " + finalUserId);
+
+        if (data === "error") {
+          setResponse("처리 실패");
+          setError("");
+        } else {
+          console.log("서버로부터 응답 제대로 옴");
+
+          const result = data.score;
+
+          if (result.includes("F")) {
+            // setResponse("여성");
+
+            if (result.includes("O")) {
+              setResponse("Old Female");
+            } else {
+              setResponse("Young Female");
+            }
+          } else {
+            // setResponse("남성");
+
+            if (result.includes("O")) {
+              setResponse("Old Male");
+            } else {
+              setResponse("Young Male");
+            }
+          }
+
+          //setResponse(result);
+          setError("");
+        }
+      } catch (error) {
+        setError("API 요청 중 오류 발생");
+        setResponse("");
+      } finally {
+        setIsLoading(false); // 요청 완료 시 로딩 상태를 false로 설정
+      }
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <p style={titleStyle}>
-          목소리 인증 Demo
+          화자 인증 & 분류 Demo
           <span
             style={{ color: "green", marginLeft: "10px", fontSize: "50px" }}
           >
@@ -217,6 +280,20 @@ function App() {
               }}
             >
               인증
+            </Button>
+          </div>
+          <div className="column">
+            <Button
+              onClick={() => clickClassiButton()}
+              size="lg"
+              style={{
+                width: "200px",
+                height: "50px",
+                backgroundColor: "brown",
+                border: "none",
+              }}
+            >
+              분류
             </Button>
           </div>
         </div>
